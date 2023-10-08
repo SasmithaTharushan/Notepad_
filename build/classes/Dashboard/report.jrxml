@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="16c3d802-e904-45f6-9844-2182f26d92a6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+    U.Name,
+    COUNT(DISTINCT D.DocID) AS TotalDocuments,
+    COUNT(DISTINCT E.EventID) AS TotalEvents,
+    COUNT(DISTINCT T.TID) AS TotalTasks
+FROM
+    User U
+LEFT JOIN Documents D ON U.UID = D.UID
+LEFT JOIN Event E ON U.UID = E.UID
+LEFT JOIN Tasks T ON U.UID = T.UID
+GROUP BY
+    U.UID, U.Name;]]>
+	</queryString>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TotalDocuments" class="java.lang.Long"/>
+	<field name="TotalEvents" class="java.lang.Long"/>
+	<field name="TotalTasks" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="207" y="0" width="139" height="57" uuid="02d749ab-eb46-4f1e-b602-4b1cedd0ed19"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Analytics]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="477" y="0" width="75" height="20" uuid="8b39c94e-0db3-4a8a-ae1c-44b4a5a8c7f1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Auxa Notes]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="4fdbec3f-a235-4851-b0b9-b5129781e5a0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="138" height="15" uuid="e5461e59-ba83-498f-a1c5-b96cd67f0bd1"/>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="138" y="19" width="138" height="15" uuid="b6326c41-3cd5-4a41-b8b4-3a9391589e02"/>
+				<text><![CDATA[TotalDocuments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="276" y="19" width="138" height="15" uuid="fc4aae39-4339-442e-86c6-6e110dd9f7c8"/>
+				<text><![CDATA[TotalEvents]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="414" y="19" width="138" height="15" uuid="473f9d64-7ec5-4fca-a032-50510f064031"/>
+				<text><![CDATA[TotalTasks]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="7ba6d391-e10d-4fca-861e-fb740cca389a"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="138" height="15" uuid="67517f4b-d3ef-47df-a41b-208319aa9786"/>
+				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="138" y="0" width="138" height="15" uuid="495fdee4-4120-4c8f-a8be-dc678094f40a"/>
+				<textFieldExpression><![CDATA[$F{TotalDocuments}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="276" y="0" width="138" height="15" uuid="ab88beff-9ab5-420c-a2af-284299f7a775"/>
+				<textFieldExpression><![CDATA[$F{TotalEvents}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="414" y="0" width="138" height="15" uuid="4db72566-3c07-4898-8ec6-ed053d1b2814"/>
+				<textFieldExpression><![CDATA[$F{TotalTasks}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="92" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="d4a15fcd-8fac-4223-a75f-d5a69ad043c1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="97" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

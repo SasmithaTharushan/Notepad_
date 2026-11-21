@@ -58,6 +58,26 @@ export default function App() {
     }
   }, [darkMode]);
 
+  // Global Keyboard Shortcuts (Ctrl+N for new note, Ctrl+K for search)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        setEditingNote(null);
+        setIsNoteModalOpen(true);
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('navbar-search-input');
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Auth Listener
   useEffect(() => {
     if (isFirebaseConfigured && auth) {

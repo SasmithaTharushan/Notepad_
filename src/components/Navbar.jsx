@@ -57,19 +57,24 @@ export default function Navbar({
           <div className="flex-1 max-w-md relative hidden md:block">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
+              id="navbar-search-input"
               type="text"
               placeholder="Search notes by title or content..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-transparent focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 dark:text-slate-100"
+              className="w-full pl-10 pr-16 py-2 text-sm rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-transparent focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 dark:text-slate-100"
             />
-            {searchTerm && (
+            {searchTerm ? (
               <button 
                 onClick={() => setSearchTerm('')} 
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               >
                 Clear
               </button>
+            ) : (
+              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono text-slate-400 bg-white dark:bg-slate-700/80 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-600 shadow-xs pointer-events-none">
+                Ctrl K
+              </kbd>
             )}
           </div>
 

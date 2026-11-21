@@ -1,8 +1,10 @@
-import React from 'react';
-import { Pin, Edit2, Trash2, FileDown, Calendar, Tag } from 'lucide-react';
+import React, { useState } from 'react';
+import { Pin, Edit2, Trash2, FileDown, Calendar, Copy, Check } from 'lucide-react';
 import { exportSingleNotePDF } from '../utils/pdfExport';
 
 export default function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
+  const [copied, setCopied] = useState(false);
+
   const categoryColors = {
     Work: "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-900",
     Personal: "bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200 dark:border-purple-900",
@@ -11,25 +13,48 @@ export default function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
     General: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900",
   };
 
+  const accentBorders = {
+    emerald: "hover:border-emerald-500/80 dark:hover:border-emerald-500/80",
+    blue: "hover:border-blue-500/80 dark:hover:border-blue-500/80",
+    purple: "hover:border-purple-500/80 dark:hover:border-purple-500/80",
+    amber: "hover:border-amber-500/80 dark:hover:border-amber-500/80",
+    rose: "hover:border-rose-500/80 dark:hover:border-rose-500/80",
+  };
+
   const badgeClass = categoryColors[note.category] || categoryColors.General;
+  const hoverBorder = accentBorders[note.color] || accentBorders.emerald;
+
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(`${note.title}\n\n${note.content}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  const words = note.content?.trim() ? note.content.trim().split(/\s+/).length : 0;
 
   return (
-    <div className={`group relative flex flex-col justify-between rounded-2xl p-5 transition-all duration-200 border ${
+    <div className={`group relative flex flex-col justify-between rounded-3xl p-5 transition-all duration-200 border ${
       note.pinned
         ? 'bg-gradient-to-b from-amber-500/[0.04] to-transparent bg-white dark:bg-slate-900 border-amber-300/80 dark:border-amber-700/80 shadow-md shadow-amber-500/5'
-        : 'bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-600/80 hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-black/40'
+        : `bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 ${hoverBorder} hover:shadow-xl hover:shadow-slate-200/60 dark:hover:shadow-black/50`
     }`}>
       
       {/* Card Header */}
       <div>
         <div className="flex items-start justify-between gap-2 mb-3">
-          <span className={`text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${badgeClass}`}>
-            {note.category || 'General'}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${badgeClass}`}>
+              {note.category || 'General'}
+            </span>
+            <span className="text-[10px] text-slate-400 font-medium">
+              {words} {words === 1 ? 'word' : 'words'}
+            </span>
+          </div>
 
           <button
             onClick={() => onTogglePin(note)}
-            className={`p-1.5 rounded-lg transition ${
+            className={`p-1.5 rounded-xl transition ${
               note.pinned
                 ? 'text-amber-500 bg-amber-50 dark:bg-amber-950/50'
                 : 'text-slate-300 dark:text-slate-600 hover:text-amber-500 dark:hover:text-amber-400 opacity-60 group-hover:opacity-100'
@@ -52,7 +77,7 @@ export default function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
       </div>
 
       {/* Card Footer */}
-      <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+      <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
         <div className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500">
           <Calendar className="w-3.5 h-3.5" />
           <span>{note.date || "Today"}</span>
@@ -61,8 +86,16 @@ export default function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
         {/* Action icons */}
         <div className="flex items-center gap-1">
           <button
+            onClick={handleCopy}
+            className="p-1.5 rounded-xl text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition"
+            title="Copy note text"
+          >
+            {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+          </button>
+
+          <button
             onClick={() => exportSingleNotePDF(note)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition"
             title="Download PDF document"
           >
             <FileDown className="w-4 h-4" />
@@ -70,7 +103,7 @@ export default function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
           
           <button
             onClick={() => onEdit(note)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition"
             title="Edit note"
           >
             <Edit2 className="w-4 h-4" />
@@ -78,7 +111,7 @@ export default function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
 
           <button
             onClick={() => onDelete(note.id)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition"
             title="Delete note"
           >
             <Trash2 className="w-4 h-4" />

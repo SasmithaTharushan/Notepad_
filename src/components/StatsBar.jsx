@@ -40,10 +40,10 @@ export default function StatsBar({
 
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex items-center justify-between">
           <div className="space-y-1">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Active Sync</span>
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Cloud Status</span>
             <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Real-time Firestore
+              Live Synced
             </div>
           </div>
           <div className="w-11 h-11 rounded-xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center text-teal-600 dark:text-teal-400">

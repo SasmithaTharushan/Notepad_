@@ -359,10 +359,8 @@ export default function App() {
         setDarkMode={setDarkMode}
         onOpenNewNote={handleOpenNew}
         onExportAll={() => exportAllNotesPDF(filteredNotes)}
-        onOpenFirebaseConfig={() => setIsFirebaseModalOpen(true)}
         onLogout={handleLogout}
         user={user}
-        isFirebaseActive={isFirebaseConfigured && !user.isGuest}
       />
 
       {/* Main Container */}
@@ -375,9 +373,7 @@ export default function App() {
               Hello, {user.displayName} 👋
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              {isFirebaseConfigured && !user.isGuest 
-                ? "Your workspace is securely synchronized with Firebase Cloud Firestore." 
-                : "You are in Local Demo mode. Connect Firebase anytime to sync across devices."}
+              Organize your thoughts, tasks, and documents in one seamless workspace.
             </p>
           </div>
 
@@ -450,13 +446,6 @@ export default function App() {
         onClose={() => setIsNoteModalOpen(false)}
         onSave={handleSaveNote}
         editingNote={editingNote}
-      />
-
-      {/* Firebase Cloud Config Modal */}
-      <FirebaseConfigModal
-        isOpen={isFirebaseModalOpen}
-        onClose={() => setIsFirebaseModalOpen(false)}
-        onConfigSaved={() => setIsFirebaseModalOpen(false)}
       />
 
     </div>

@@ -9,8 +9,6 @@ import {
   Sun, 
   FileDown, 
   LogOut, 
-  Settings, 
-  Flame, 
   User as UserIcon 
 } from 'lucide-react';
 
@@ -23,10 +21,8 @@ export default function Navbar({
   setDarkMode,
   onOpenNewNote,
   onExportAll,
-  onOpenFirebaseConfig,
   onLogout,
-  user,
-  isFirebaseActive
+  user
 }) {
   return (
     <header className="sticky top-0 z-30 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800 transition-colors">
@@ -124,22 +120,6 @@ export default function Navbar({
             >
               <Plus className="w-4 h-4" />
               <span>Add Note</span>
-            </button>
-
-            {/* Firebase Connection Status Button */}
-            <button
-              onClick={onOpenFirebaseConfig}
-              className={`p-2 rounded-xl border transition flex items-center gap-1 ${
-                isFirebaseActive
-                  ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400'
-                  : 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
-              }`}
-              title={isFirebaseActive ? "Connected to Firebase" : "Using Local Storage (Click to connect Firebase)"}
-            >
-              <Flame className="w-4 h-4" />
-              <span className="text-xs font-medium hidden xl:inline">
-                {isFirebaseActive ? "Firebase Live" : "Local Demo"}
-              </span>
             </button>
 
             {/* Dark Mode Toggle */}
